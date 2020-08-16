@@ -1,0 +1,18 @@
+dievas	dkt	dievai	18
+garvežys	dkt	garvežys	1
+GAS	akronim	GAS	1
+Gastejevas	tikr. dkt	Gastejevas	2
+Gastejevas	tikr. dkt	Gastejevo	1
+gastroduodeninis	bdv	gastroduodeniniam	1
+gastroduodenofibroskopas	dkt	gastroduodenofibroskopu	1
+gastroduodenofibroskopija	dkt	gastroduodenofibroskopijai	2
+kalnas	dkt	kalnai	7
+klanas	dkt	klanai	1
+lankas	dkt	lankai	3
+lipti	vksm	limpa	2
+pilti	vksm	pila	1
+rastis	vksm	radosi	13
+ristis	vksm	ristis	2
+skalna	dkt	skalna	1
+suėmimas	dkt	suėmimai	3
+veidas	dkt	veidai	7

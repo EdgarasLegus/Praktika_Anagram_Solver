@@ -1,0 +1,54 @@
+﻿@*PaginatedList<AnagramSolver.Contracts.Anagram>*@
+@*@model PaginatedList<AnagramSolver.Contracts.WordModel>*@
+@model PaginatedList<AnagramSolver.Contracts.Entities.WordEntity>
+@{ ViewData["Title"] = "Word List"; }
+
+
+
+@{ var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : ""; }
+
+<style>
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .button-download {
+        margin-left: auto;
+    }
+
+    .navigation {
+        display: flex;
+    }
+</style>
+
+<div class="form-group">
+    <div class="navigation">
+        <a asp-action="Index"
+           asp-route-pageIndex="@(Model.PageIndex - 1)"
+           class="btn btn-default active @prevDisabled">
+            << Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-pageIndex="@(Model.PageIndex + 1)"
+           class="btn btn-default active @nextDisabled">
+            Next >>
+        </a>
+        <button onclick="location.href='api/download_dictionary/zodynas'" type="button" class="button-download">Download dictionary</button>
+    </div>
+    <form asp-action="Index" class="search-form">
+        <input type="text" name="searchInput" size="25">
+        <button type="submit" class="button">Search</button>
+    </form>
+</div>
+
+<p><u>Word List:</u></p>
+
+
+@foreach (var item in Model)
+{
+<ul>
+    <a asp-action="WordAnagrams" asp-route-id="@item.Word1">@item.Word1</a>
+</ul>}
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<string>
+@{ ViewData["Title"] = "Anagram Solver application"; }
+
+<h1><u>Anagram Solver</u></h1>
+<br />
+<br />
+
+
+<h2>Usage:</h2>
+<p>1. Enter word or phrase in search bar. Result will return anagrams.</p>
+<p>2. Check "Word List" to find wanted word.</p>
+
+
+<form asp-action="Index">
+    <div class="form-group">
+        <input type="text" name="word" size="25">
+    </div>
+    <button type="submit" class="button" id="button-3">Find anagram</button>
+</form>
+
+
+@*Returning anagram list*@
+@if (Model != null)
+{
+    <p><u>Result:</u></p>
+    @foreach (var item in Model)
+    {
+        if (item.Any(x => !char.IsLetter(x)))
+        {
+            <p>No results!</p> 
+        }
+        else
+        {
+            <ul>
+                <li>@item</li>
+            </ul>
+        }
+     } 
+}
+else
+{
+    <p style="color:red">@ViewBag.Message</p>
+    if (ViewBag.Message != null)
+    {
+        <form asp-action="DictionaryAdditionForm">
+            <button type="submit" class="button" id="button-3">Go to page</button>
+        </form>
+    }
+}
+
+<style>
+    .button {
+        display: inline-flex;
+        height: 40px;
+        width: 150px;
+        border: 2px solid #DF9924;
+        margin: 20px 20px 20px 0px;
+        color: #DF9924;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-size: .8em;
+        letter-spacing: 1.5px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    value {
+        color: #DF9924;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+
+    #button-3 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        #button-3:hover {
+            color: #2D3142;
+            background: #DF9924;
+        }
+</style>
