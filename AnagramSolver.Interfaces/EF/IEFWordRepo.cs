@@ -14,5 +14,7 @@ namespace AnagramSolver.Interfaces.EF
         void InsertWordTableData(List<WordEntity> fileColumns);
         void InsertAdditionalWord(string word, string category);
         bool CheckIfWordExists(string word);
+        void RemoveWord(string word);
+        void UpdateWord(string existingWord, WordEntity newWord);
     }
 }

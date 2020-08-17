@@ -54,7 +54,7 @@ namespace AnagramSolver.WebApp.Controllers
 
                 if (validationCheck != "ok")
                 {
-                    ViewBag.Message = "Limit of searches was exceeded! In order to have more searches, add new word:";
+                    ViewBag.Message = "Limit of searches was exceeded! In order to have more searches, add/update word:";
                     return View();
                 }
                 else
@@ -99,10 +99,18 @@ namespace AnagramSolver.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        // GET - get form of word addition
+
+        public IActionResult AdditionForm()
+        {
+            return View();
+        }
+
+        //POST - add word to dictionary
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DictionaryAdditionForm([Bind("Word1, Category")] WordEntity wordEntity)
+        public IActionResult AdditionForm([Bind("Word1, Category")] WordEntity wordEntity)
         {
             if (ModelState.IsValid)
             {
@@ -128,13 +136,75 @@ namespace AnagramSolver.WebApp.Controllers
             return View();
         }
 
+        public IActionResult RemovalForm()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("RemovalForm")]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemovalConfirmed(string word)
+        {
+            if (ModelState.IsValid)
+            {
+                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                var exists = _efWordRepository.CheckIfWordExists(word);
+
+                if (!exists)
+                {
+                    ModelState.AddModelError(string.Empty, "Specified word does not exist!");
+                    return View();
+                }
+                else
+                {
+                    _efWordRepository.RemoveWord(word);
+                    _efUserLogRepository.InsertUserLog(word, ip, UserAction.Remove);
+                    ViewBag.Message = "Selected word was deleted! Your searches will be reduced by 1";
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        public IActionResult UpdateForm()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateForm(string existingWord, [Bind("Word1, Category")] WordEntity wordEntity)
+        {
+            if (ModelState.IsValid)
+            {
+                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                var exists = _efWordRepository.CheckIfWordExists(existingWord);
+
+                if (!exists)
+                {
+                    ModelState.AddModelError(string.Empty, "Specified word does not exist!");
+                    return View();
+                }
+                else
+                {
+                    _efWordRepository.UpdateWord(existingWord, wordEntity);
+                    _efUserLogRepository.InsertUserLog(existingWord, ip, UserAction.Update);
+                    ViewBag.Message = "Selected word was updated! +1 added";
+                    return View();
+                }
+            }
+            return View();
+        }
+
         private string CheckSearchValidation(string ip)
         {
             var ipCountSearch = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Search);
             var ipCountAdd = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Add);
+            var ipCountRemove = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Remove);
+            var ipCountUpdate = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Update);
 
             var maxSearchesForIP = Contracts.Settings.GetSettingsMaxSearchesForIP();
-            if ((ipCountSearch - ipCountAdd) >= maxSearchesForIP)
+            if ((ipCountSearch - ipCountAdd + ipCountRemove - ipCountUpdate) >= maxSearchesForIP)
             {
                 var validation = "failed";
                 return validation;

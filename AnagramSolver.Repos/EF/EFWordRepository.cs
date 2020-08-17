@@ -135,6 +135,24 @@ namespace AnagramSolver.Repos.EF
                 return false;
             }
         }
+
+        public void RemoveWord(string word)
+        {
+            var wordId = _context.Word.Where(x => x.Word1 == word).Select(x => x.Id).First();
+            var wordEntity = new WordEntity
+            {
+                Id = wordId
+            };
+            _context.Word.Remove(wordEntity);
+            _context.SaveChanges();
+        }
+
+        public void UpdateWord(string existingWord, WordEntity newWord)
+        {
+            _context.Word.Where(x => x.Word1 == existingWord).ToList().ForEach(x => x.Word1 = newWord.Word1);
+            _context.Word.Where(x => x.Word1 == existingWord).ToList().ForEach(x => x.Category = newWord.Category);
+            _context.SaveChanges();
+        }
     }
 }
 
