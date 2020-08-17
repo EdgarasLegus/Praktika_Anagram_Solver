@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.BusinessLogic", "AnagramSolver.BusinessLogic\AnagramSolver.BusinessLogic.csproj", "{D9731DF0-FB2E-42F1-BA9D-726CC42F8090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.BusinessLogic", "AnagramSolver.BusinessLogic\AnagramSolver.BusinessLogic.csproj", "{D9731DF0-FB2E-42F1-BA9D-726CC42F8090}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Contracts", "AnagramSolver.Contracts\AnagramSolver.Contracts.csproj", "{3174D6BB-283F-4F75-B19C-03A694335DAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.Contracts", "AnagramSolver.Contracts\AnagramSolver.Contracts.csproj", "{3174D6BB-283F-4F75-B19C-03A694335DAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.EF.CodeFirst", "AnagramSolver.EF.CodeFirst\AnagramSolver.EF.CodeFirst.csproj", "{05C13BEC-772F-4D4E-9CAE-A9AED5722BFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.EF.CodeFirst", "AnagramSolver.EF.CodeFirst\AnagramSolver.EF.CodeFirst.csproj", "{05C13BEC-772F-4D4E-9CAE-A9AED5722BFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.EF.DatabaseFirst", "AnagramSolver.EF.DatabaseFirst\AnagramSolver.EF.DatabaseFirst.csproj", "{4FF2000B-87FF-4382-B173-9B0CED4EF315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.EF.DatabaseFirst", "AnagramSolver.EF.DatabaseFirst\AnagramSolver.EF.DatabaseFirst.csproj", "{4FF2000B-87FF-4382-B173-9B0CED4EF315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Interfaces", "AnagramSolver.Interfaces\AnagramSolver.Interfaces.csproj", "{27558488-CDBD-4EA2-AE7B-2F0C042C4549}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.Interfaces", "AnagramSolver.Interfaces\AnagramSolver.Interfaces.csproj", "{27558488-CDBD-4EA2-AE7B-2F0C042C4549}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Repos", "AnagramSolver.Repos\AnagramSolver.Repos.csproj", "{E1F16CA1-CECD-4AEB-9735-361C09B58480}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.Repos", "AnagramSolver.Repos\AnagramSolver.Repos.csproj", "{E1F16CA1-CECD-4AEB-9735-361C09B58480}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Tests", "AnagramSolver.Tests\AnagramSolver.Tests.csproj", "{5FC0251D-C198-4A73-A5BC-F1041EA8D73F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.Tests", "AnagramSolver.Tests\AnagramSolver.Tests.csproj", "{5FC0251D-C198-4A73-A5BC-F1041EA8D73F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.UI", "AnagramSolver.UI\AnagramSolver.UI.csproj", "{EA05DFDD-C823-481F-A6D1-C38D41701FCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.UI", "AnagramSolver.UI\AnagramSolver.UI.csproj", "{EA05DFDD-C823-481F-A6D1-C38D41701FCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.WebApp", "AnagramSolver.WebApp\AnagramSolver.WebApp.csproj", "{6C1F084E-220D-44E1-BA09-9E608234F1C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.WebApp", "AnagramSolver.WebApp\AnagramSolver.WebApp.csproj", "{6C1F084E-220D-44E1-BA09-9E608234F1C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Generics", "Generics\AnagramSolver.Generics.csproj", "{EF6FD38A-693B-440F-9382-39A372C3FA4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{6C1F084E-220D-44E1-BA09-9E608234F1C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C1F084E-220D-44E1-BA09-9E608234F1C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C1F084E-220D-44E1-BA09-9E608234F1C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF6FD38A-693B-440F-9382-39A372C3FA4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6FD38A-693B-440F-9382-39A372C3FA4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6FD38A-693B-440F-9382-39A372C3FA4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6FD38A-693B-440F-9382-39A372C3FA4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

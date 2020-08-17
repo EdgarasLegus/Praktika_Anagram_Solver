@@ -11,10 +11,10 @@ namespace AnagramSolver.Tests
 {
     public class AnagramControllerTests
     {
-        IWordRepository repository;
-        IAnagramSolver anagramSolver;
-        List<Anagram> list;
-        Anagram anagram;
+        //IWordRepository repository;
+        //IAnagramSolver anagramSolver;
+        //List<Anagram> list;
+        //Anagram anagram;
 
         [SetUp]
         public void Setup()

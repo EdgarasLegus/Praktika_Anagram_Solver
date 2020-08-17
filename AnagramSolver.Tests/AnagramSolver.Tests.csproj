@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.7" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.0" />
     <PackageReference Include="NSubstitute" Version="4.2.2" />
     <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
   </ItemGroup>
 
@@ -18,6 +20,7 @@
     <ProjectReference Include="..\AnagramSolver.Interfaces\AnagramSolver.Interfaces.csproj" />
     <ProjectReference Include="..\AnagramSolver.Repos\AnagramSolver.Repos.csproj" />
     <ProjectReference Include="..\AnagramSolver.WebApp\AnagramSolver.WebApp.csproj" />
+    <ProjectReference Include="..\Generics\AnagramSolver.Generics.csproj" />
   </ItemGroup>
 
   <ItemGroup>
