@@ -12,14 +12,21 @@ using AnagramSolver.Repos;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces.DBFirst;
+using System.Diagnostics;
 
 namespace AnagramSolver.UI
 {
     class Program
     {
-
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
         private static readonly IUI _userInterface = new UI();
+
+        //private static readonly Print _print = new Print(WriteLineConsole);
+        //private static readonly Display _display = new Display(new Print(WriteLineConsole));
+
+        private static readonly Action<string> _print = new Action<string>(WriteLineConsole);
+        private static readonly Display _display = new Display(new Action<string>(WriteLineConsole));
+
 
         // Keiciama is static void Main i static async Task kad kviest async
         static async Task Main(string[] args)
@@ -33,20 +40,46 @@ namespace AnagramSolver.UI
             var input = _userInterface.GetUserInput(minInputWordLength);
 
             var anagrams = _anagramSolver.GetAnagrams(input);
+            var joinedAnagrams = string.Join('\n', anagrams);
 
-            Console.WriteLine("---Anagramos:");
-            Console.WriteLine(string.Join('\n', anagrams));
+            _print("---Anagramos:");
+            _print(string.Join('\n', joinedAnagrams));
+            _print("\n");
+
+            _print("---Anagramos su kapitalizuota pirmąja raide");
+            _display.FormattedPrint(Capitalize, joinedAnagrams);
+            _print("\n");
 
             // Get anagrams response by making API request
-            Console.WriteLine("---API request:");
+            _print("---API request:");
             var inputForRequest = _userInterface.GetUserInput(minInputWordLength);
             var responseAnagrams = await _userInterface.RequestAPI(inputForRequest);
-            Console.WriteLine("---API Response anagramos:");
-            Console.WriteLine(responseAnagrams);
+            _print("---API Response anagramos:");
+            _print(responseAnagrams);
+            _print("\n");
+        }
 
+        public static void WriteLineConsole(string msg)
+        {
+            Console.WriteLine(msg);
+        }
 
-            //+++ Configuration klase , o metodas AnagramValidator, sukurt objekta pries tai.
-            // Ideti validavima i try catch catch --> Console.. ArgumentException 
+        public static void WriteLineDebug(string msg)
+        {
+            Debug.WriteLine(msg);
+        }
+
+        public static void WriteLineFile(string msg)
+        {
+            File.WriteAllText(@"./output.txt", msg);
+        }
+
+        public static string Capitalize(string input)
+        {
+            if (input.Length == 1)
+                return char.ToUpper(input[0]).ToString();
+            else
+                return char.ToUpper(input[0]) + input.Substring(1);
         }
     }
 }
