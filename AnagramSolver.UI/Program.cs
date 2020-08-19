@@ -27,6 +27,11 @@ namespace AnagramSolver.UI
         private static readonly Action<string> _print = new Action<string>(WriteLineConsole);
         private static readonly Display _display = new Display(new Action<string>(WriteLineConsole));
 
+        // EVENT CONSUMING
+        private static readonly DisplayWithEvents _displayWithEvents = new DisplayWithEvents();
+
+        //public event EventHandler<Print> PrintingEvent = new Print();
+
 
         // Keiciama is static void Main i static async Task kad kviest async
         static async Task Main(string[] args)
@@ -34,6 +39,9 @@ namespace AnagramSolver.UI
             // 1- Ar uzpildyti lentele
             //**//DB
             //_userInterface.ToFillTable();
+
+            _displayWithEvents.eventPrinting += WriteLineConsole;
+            _displayWithEvents.eventPrinting += WriteLineFile;
 
             var minInputWordLength = Configuration.BuilderConfigurations();
 

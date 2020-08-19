@@ -47,6 +47,8 @@ namespace AnagramSolver.WebApp
                 .AddScoped<IEFWordRepo, Repos.EF.EFWordRepository>()
                 .AddScoped<IEFUserLogRepo, Repos.EF.EFUserLogRepository>()
                 .AddScoped<IEFCachedWordRepo, Repos.EF.EFCachedWordRepository>()
+                .AddScoped<IUserLogService, BusinessLogic.Services.UserLogService>()
+                .AddScoped<IWordService, BusinessLogic.Services.WordService>()
                 .AddHttpContextAccessor();
 
             services.AddDbContext<AnagramSolverDBFirstContext>(options => options.UseSqlServer(UI.Configuration.GetConnectionStringDBFirst()));

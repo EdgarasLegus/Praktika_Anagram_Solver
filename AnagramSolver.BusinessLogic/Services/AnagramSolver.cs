@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts;
 using AnagramSolver.Contracts.Entities;
 using AnagramSolver.EF.CodeFirst;
@@ -41,10 +42,12 @@ namespace AnagramSolver.BusinessLogic
 
             //var repository = new EFRepository(cont);
             var repository = new EFWordRepository(cont);
+            var wordService = new WordService();
 
             if (!cont.Word.Any())
             {
-                repository.InsertWordTableData(repository.GetWordEntityFromFile());
+                //repository.InsertWordTableData(repository.GetWordEntityFromFile());
+                repository.InsertWordTableData(wordService.GetWordEntityFromFile());
             }
 
             // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius

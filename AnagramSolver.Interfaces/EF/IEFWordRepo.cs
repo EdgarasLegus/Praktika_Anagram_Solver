@@ -10,7 +10,7 @@ namespace AnagramSolver.Interfaces.EF
         List<WordEntity> GetWords();
         List<WordEntity> SearchWords(string searchInput);
         List<int> GetAnagramsId(IEnumerable<string> anagrams);
-        List<WordEntity> GetWordEntityFromFile();
+        //List<WordEntity> GetWordEntityFromFile();
         void InsertWordTableData(List<WordEntity> fileColumns);
         void InsertAdditionalWord(string word, string category);
         bool CheckIfWordExists(string word);

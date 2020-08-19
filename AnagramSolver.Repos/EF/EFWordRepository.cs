@@ -50,49 +50,6 @@ namespace AnagramSolver.Repos.EF
         }
 
         // CODE FIRST
-        public List<WordEntity> GetWordEntityFromFile()
-        {
-            var configuration = new ConfigurationBuilder()
-               .AddJsonFile(@"./appsettings.json")
-               .Build();
-
-            var path = configuration["Settings:FileName"];
-
-            if (!File.Exists(path))
-            {
-                throw new Exception($"Data file {path} does not exist!");
-            }
-
-            var wordModelList = new Dictionary<string, string>();
-
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string word = line.Split('\t').First();
-                    string PartOfSpeech = line.Split('\t').ElementAt(1);
-                    var wordModel = new WordEntity()
-                    {
-                        Word1 = word,
-                        Category = PartOfSpeech
-                    };
-                    if (!wordModelList.ContainsKey(word))
-                    {
-                        wordModelList.Add(wordModel.Word1, wordModel.Category);
-                    }
-                }
-            }
-            var returnList = wordModelList.Select(pair => new WordEntity()
-            {
-                Word1 = pair.Key,
-                Category = pair.Value
-            }).ToList();
-            return returnList;
-
-        }
-
-        // CODE FIRST
         public void InsertWordTableData(List<WordEntity> fileColumns)
         {
             var enity = new WordEntity();
@@ -153,6 +110,48 @@ namespace AnagramSolver.Repos.EF
             _context.Word.Where(x => x.Word1 == existingWord).ToList().ForEach(x => x.Category = newWord.Category);
             _context.SaveChanges();
         }
+
+        //public List<WordEntity> GetWordEntityFromFile()
+        //{
+        //    var configuration = new ConfigurationBuilder()
+        //       .AddJsonFile(@"./appsettings.json")
+        //       .Build();
+
+        //    var path = configuration["Settings:FileName"];
+
+        //    if (!File.Exists(path))
+        //    {
+        //        throw new Exception($"Data file {path} does not exist!");
+        //    }
+
+        //    var wordModelList = new Dictionary<string, string>();
+
+        //    using (StreamReader reader = new StreamReader(path))
+        //    {
+        //        string line;
+        //        while ((line = reader.ReadLine()) != null)
+        //        {
+        //            string word = line.Split('\t').First();
+        //            string PartOfSpeech = line.Split('\t').ElementAt(1);
+        //            var wordModel = new WordEntity()
+        //            {
+        //                Word1 = word,
+        //                Category = PartOfSpeech
+        //            };
+        //            if (!wordModelList.ContainsKey(word))
+        //            {
+        //                wordModelList.Add(wordModel.Word1, wordModel.Category);
+        //            }
+        //        }
+        //    }
+        //    var returnList = wordModelList.Select(pair => new WordEntity()
+        //    {
+        //        Word1 = pair.Key,
+        //        Category = pair.Value
+        //    }).ToList();
+        //    return returnList;
+
+        //}
     }
 }
 

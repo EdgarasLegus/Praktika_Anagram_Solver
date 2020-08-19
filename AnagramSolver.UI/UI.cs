@@ -8,6 +8,7 @@ using AnagramSolver.Contracts;
 using AnagramSolver.Repos;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces.DBFirst;
+using System.Drawing.Printing;
 
 namespace AnagramSolver.UI
 {
@@ -18,6 +19,7 @@ namespace AnagramSolver.UI
         private static readonly IFillDB _fillDB = new FillDBRepository();
 
         private readonly Print _print = new Print(Program.WriteLineConsole);
+        private static readonly DisplayWithEvents _displayWithEvents = new DisplayWithEvents();
 
         public string GetUserInput(int minInputWordLength)
         {

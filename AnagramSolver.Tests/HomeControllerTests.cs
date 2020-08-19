@@ -22,6 +22,8 @@ namespace AnagramSolver.Tests
         IEFUserLogRepo efUserLogRepository;
         IEFCachedWordRepo efCachedWordRepository;
 
+        IUserLogService userLogService;
+
         [SetUp]
         public void Setup()
         {
@@ -32,7 +34,7 @@ namespace AnagramSolver.Tests
         {
             //Arrange
             var controller = new HomeController(anagramSolver, databaseLogic, eflogic,
-                efWordRepository, efUserLogRepository, efCachedWordRepository);
+                efWordRepository, efUserLogRepository, efCachedWordRepository, userLogService);
             //Act
             ViewResult result = controller.Index(id) as ViewResult;
             //Assert
@@ -51,7 +53,7 @@ namespace AnagramSolver.Tests
 
             anagramSolver.GetAnagrams(Arg.Any<string>()).Returns(anagramList);
             var controller = new HomeController(anagramSolver, databaseLogic, eflogic,
-                efWordRepository, efUserLogRepository, efCachedWordRepository);
+                efWordRepository, efUserLogRepository, efCachedWordRepository, userLogService);
             var result = controller.Index("kalnas");
 
             //Act

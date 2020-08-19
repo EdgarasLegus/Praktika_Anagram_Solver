@@ -30,8 +30,10 @@ namespace AnagramSolver.WebApp.Controllers
         private readonly IEFUserLogRepo _efUserLogRepository;
         private readonly IEFCachedWordRepo _efCachedWordRepository;
 
+        private readonly IUserLogService _userLogService;
+
         public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic efLogic,
-            IEFWordRepo efWordRepository, IEFUserLogRepo efUserLogRepository, IEFCachedWordRepo efCachedWordRepository)
+            IEFWordRepo efWordRepository, IEFUserLogRepo efUserLogRepository, IEFCachedWordRepo efCachedWordRepository, IUserLogService userLogService)
         {
             _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
@@ -40,6 +42,8 @@ namespace AnagramSolver.WebApp.Controllers
             _efWordRepository = efWordRepository;
             _efUserLogRepository = efUserLogRepository;
             _efCachedWordRepository = efCachedWordRepository;
+
+            _userLogService = userLogService;
         }
 
         public IActionResult Index(string word)
@@ -50,7 +54,7 @@ namespace AnagramSolver.WebApp.Controllers
                     throw new Exception("Error! At least one word must be entered.");
 
                 var ip = HttpContext.Connection.RemoteIpAddress.ToString();
-                var validationCheck = CheckSearchValidation(ip);
+                var validationCheck = _userLogService.ValidateUserLog(ip);
 
                 if (validationCheck != "ok")
                 {
@@ -195,26 +199,5 @@ namespace AnagramSolver.WebApp.Controllers
             }
             return View();
         }
-
-        private string CheckSearchValidation(string ip)
-        {
-            var ipCountSearch = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Search);
-            var ipCountAdd = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Add);
-            var ipCountRemove = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Remove);
-            var ipCountUpdate = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Update);
-
-            var maxSearchesForIP = Contracts.Settings.GetSettingsMaxSearchesForIP();
-            if ((ipCountSearch - ipCountAdd + ipCountRemove - ipCountUpdate) >= maxSearchesForIP)
-            {
-                var validation = "failed";
-                return validation;
-            }
-            else
-            {
-                var validation = "ok";
-                return validation;
-            }
-        }
-
     }
 }
