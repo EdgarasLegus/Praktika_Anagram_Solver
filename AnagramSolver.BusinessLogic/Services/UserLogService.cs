@@ -1,6 +1,7 @@
 ﻿using AnagramSolver.Contracts.Enums;
 using AnagramSolver.Interfaces;
 using AnagramSolver.Interfaces.EF;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;

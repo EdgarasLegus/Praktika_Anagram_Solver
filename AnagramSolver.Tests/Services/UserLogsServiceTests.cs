@@ -45,7 +45,7 @@ namespace AnagramSolver.Tests.Services
         [TestCase(5,3,10,0,"failed")]
         [TestCase(7,1,6,2,"ok")]
         [TestCase(-5,-6,-7,-3, "ok")]
-        public void GetCorrectUserLogIPValidation(int searchAction, int addAction, int removeAction, int updateAction, string expectedResult)
+        public void GetCorrectUserLogIPValidationByCheckingSum(int searchAction, int addAction, int removeAction, int updateAction, string expectedResult)
         {
             var ip = "::1";
 
@@ -64,5 +64,17 @@ namespace AnagramSolver.Tests.Services
             Assert.AreEqual(expectedResult, result);
         }
 
+        [Test]
+        public void GetUserLogIPValidationForAnyAction_ShouldBeOk()
+        {
+            var ip = "::1";
+            _efUserLogRepositoryMock.CheckUserLogActions(ip, Arg.Any<UserAction>()).Returns(5, 9, 4, 0);
+
+            var result = _userLogService.ValidateUserLog(ip);
+
+            result.ShouldNotBeNull();
+            result.ShouldBe("ok");
+            _efUserLogRepositoryMock.Received().CheckUserLogActions(ip, Arg.Any<UserAction>());
+        }
     }
 }

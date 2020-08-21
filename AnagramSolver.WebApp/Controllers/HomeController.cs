@@ -24,7 +24,7 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly IAnagramSolver _anagramSolver;
         private readonly IDatabaseLogic _databaseLogic;
-        private readonly IEFLogic _eflogic;
+        //private readonly IEFLogic _eflogic;
 
         private readonly IEFWordRepo _efWordRepository;
         private readonly IEFUserLogRepo _efUserLogRepository;
@@ -32,12 +32,11 @@ namespace AnagramSolver.WebApp.Controllers
 
         private readonly IUserLogService _userLogService;
 
-        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic efLogic,
+        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic,
             IEFWordRepo efWordRepository, IEFUserLogRepo efUserLogRepository, IEFCachedWordRepo efCachedWordRepository, IUserLogService userLogService)
         {
             _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
-            _eflogic = efLogic;
 
             _efWordRepository = efWordRepository;
             _efUserLogRepository = efUserLogRepository;
@@ -53,7 +52,7 @@ namespace AnagramSolver.WebApp.Controllers
                 if (string.IsNullOrEmpty(word))
                     throw new Exception("Error! At least one word must be entered.");
 
-                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                var ip = GetIP();
                 var validationCheck = _userLogService.ValidateUserLog(ip);
 
                 if (validationCheck != "ok")
@@ -198,6 +197,11 @@ namespace AnagramSolver.WebApp.Controllers
                 }
             }
             return View();
+        }
+
+        public string GetIP()
+        {
+            return HttpContext.Connection.RemoteIpAddress.ToString();
         }
     }
 }
