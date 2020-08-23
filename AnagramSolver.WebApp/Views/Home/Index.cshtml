@@ -1,6 +1,18 @@
 ﻿@model IEnumerable<string>
 @{ ViewData["Title"] = "Anagram Solver application"; }
 
+@{ 
+    var _context = new AnagramSolver.EF.CodeFirst.AnagramSolverCodeFirstContext();
+    var efLogic = new AnagramSolver.BusinessLogic.EFLogic();
+
+    var ip = efLogic.GetIP();
+    var userLogRepistory = new AnagramSolver.Repos.EF.EFUserLogRepository(_context, efLogic);
+    var search = userLogRepistory.CheckUserLogActions(ip, AnagramSolver.Contracts.Enums.UserAction.Search);
+    var add = userLogRepistory.CheckUserLogActions(ip, AnagramSolver.Contracts.Enums.UserAction.Add);
+    var remove = userLogRepistory.CheckUserLogActions(ip, AnagramSolver.Contracts.Enums.UserAction.Remove);
+    var update = userLogRepistory.CheckUserLogActions(ip, AnagramSolver.Contracts.Enums.UserAction.Update);
+}
+
 <h1><u>Anagram Solver</u></h1>
 <br />
 <br />
@@ -42,6 +54,10 @@ else
     <p style="color:red">@ViewBag.Message</p>
     if (ViewBag.Message != null)
     {
+        <p style="color:green">Search: @search</p>
+        <p style="color:blue">Add: @add</p>
+        <p style="color:purple">Remove: @remove</p>
+        <p style="color:orangered">Update: @update</p>
         <form asp-action="AdditionForm">
             <button type="submit" class="button" id="button-3">Add new word</button>
         </form>

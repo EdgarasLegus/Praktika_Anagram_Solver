@@ -1,6 +1,7 @@
 ﻿using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Enums;
 using AnagramSolver.Interfaces;
+using AnagramSolver.Interfaces.DBFirst;
 using AnagramSolver.Interfaces.EF;
 using NSubstitute;
 using NUnit.Framework;
@@ -17,19 +18,20 @@ namespace AnagramSolver.Tests.Services
     {
         private IEFUserLogRepo _efUserLogRepositoryMock;
         private IUserLogService _userLogService;
+        private IEFLogic _efLogicMock;
 
         [SetUp]
         public void Setup()
         {
             _efUserLogRepositoryMock = Substitute.For<IEFUserLogRepo>();
-            _userLogService = new UserLogService(_efUserLogRepositoryMock);
+            _userLogService = new UserLogService(_efUserLogRepositoryMock, _efLogicMock);
         }
 
         [Test]
         public void GetUserLogIPValidationForRemove_ShouldFail()
         {
             // appsettings reiksme - "MaxSearchesForIP": 11
-            var ip = "173.44.55.66";
+            var ip = "::1";
             UserAction userAction = UserAction.Remove;
             _efUserLogRepositoryMock.CheckUserLogActions(ip, userAction).Returns(12);
 

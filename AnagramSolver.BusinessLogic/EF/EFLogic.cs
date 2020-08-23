@@ -19,24 +19,31 @@ namespace AnagramSolver.BusinessLogic
 {
     public class EFLogic : IEFLogic
     {
+        //public string GetIP()
+        //{
+        //    var host = Dns.GetHostEntry(Dns.GetHostName());
+        //    foreach (var ip in host.AddressList)
+        //    {
+        //        if (ip.AddressFamily == AddressFamily.InterNetwork)
+        //        {
+        //            return ip.ToString();
+        //        }
+        //    }
+        //    throw new Exception("IP is not recognised!");
+        //    //string strHostName = "";
+        //    //IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
+        //    //var addr = ipEntry.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+        //    //var myIP = addr.First().ToString();
+
+        //    //var myIP = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
+        //    //return myIP;
+        //}
+
+
         public string GetIP()
         {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("IP is not recognised!");
-            //string strHostName = "";
-            //IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
-            //var addr = ipEntry.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-            //var myIP = addr.First().ToString();
-
-            //var myIP = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
-            //return myIP;
+            //return HttpContext.Connection.RemoteIpAddress.ToString();
+            return "::1";
         }
     }
 }

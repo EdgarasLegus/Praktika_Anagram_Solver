@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using Grpc.Core;
+using System.Text;
 
 namespace AnagramSolver.WebApp.Controllers
 {

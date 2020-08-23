@@ -15,6 +15,6 @@ namespace AnagramSolver.Interfaces.EF
         void InsertAdditionalWord(string word, string category);
         bool CheckIfWordExists(string word);
         void RemoveWord(string word);
-        void UpdateWord(string existingWord, WordEntity newWord);
+        bool UpdateWord(string updatableWord, WordEntity newWord);
     }
 }

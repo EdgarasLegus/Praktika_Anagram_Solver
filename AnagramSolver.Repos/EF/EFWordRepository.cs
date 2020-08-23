@@ -104,11 +104,22 @@ namespace AnagramSolver.Repos.EF
             _context.SaveChanges();
         }
 
-        public void UpdateWord(string existingWord, WordEntity newWord)
+        public bool UpdateWord(string updatableWord, WordEntity newWord)
         {
-            _context.Word.Where(x => x.Word1 == existingWord).ToList().ForEach(x => x.Word1 = newWord.Word1);
-            _context.Word.Where(x => x.Word1 == existingWord).ToList().ForEach(x => x.Category = newWord.Category);
-            _context.SaveChanges();
+            _context.Word.Where(x => x.Word1 == updatableWord).ToList().ForEach(x => x.Word1 = newWord.Word1);
+            _context.Word.Where(x => x.Word1 == updatableWord).ToList().ForEach(x => x.Category = newWord.Category);
+            //var existingWord = _context.Word.Where(x => x.Word1 == newWord.Word1).ToList().First();
+            var checkExistingWord = CheckIfWordExists(newWord.Word1);
+            if(checkExistingWord == true)
+            {
+                return true;
+            }
+            else
+            {
+                _context.SaveChanges();
+                return false;
+            }
+            //_context.SaveChanges();
         }
 
         //public List<WordEntity> GetWordEntityFromFile()

@@ -24,7 +24,7 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly IAnagramSolver _anagramSolver;
         private readonly IDatabaseLogic _databaseLogic;
-        //private readonly IEFLogic _eflogic;
+        private readonly IEFLogic _eflogic;
 
         private readonly IEFWordRepo _efWordRepository;
         private readonly IEFUserLogRepo _efUserLogRepository;
@@ -33,7 +33,7 @@ namespace AnagramSolver.WebApp.Controllers
         private readonly IUserLogService _userLogService;
 
         public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic,
-            IEFWordRepo efWordRepository, IEFUserLogRepo efUserLogRepository, IEFCachedWordRepo efCachedWordRepository, IUserLogService userLogService)
+            IEFWordRepo efWordRepository, IEFUserLogRepo efUserLogRepository, IEFCachedWordRepo efCachedWordRepository, IUserLogService userLogService, IEFLogic efLogic)
         {
             _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
@@ -43,6 +43,7 @@ namespace AnagramSolver.WebApp.Controllers
             _efCachedWordRepository = efCachedWordRepository;
 
             _userLogService = userLogService;
+            _eflogic = efLogic;
         }
 
         public IActionResult Index(string word)
@@ -52,7 +53,9 @@ namespace AnagramSolver.WebApp.Controllers
                 if (string.IsNullOrEmpty(word))
                     throw new Exception("Error! At least one word must be entered.");
 
-                var ip = GetIP();
+                var ip = _eflogic.GetIP();
+                //var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                //var ip = GetContextIP();
                 var validationCheck = _userLogService.ValidateUserLog(ip);
 
                 if (validationCheck != "ok")
@@ -62,6 +65,7 @@ namespace AnagramSolver.WebApp.Controllers
                 }
                 else
                 {
+                    //var ip = _eflogic.GetIP();
                     _efUserLogRepository.InsertUserLog(word, ip, UserAction.Search);
                     ////var check = _databaseLogic.GetCachedWords(id);
                     var check = _efCachedWordRepository.GetCachedWords(word);
@@ -119,7 +123,8 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 var word = wordEntity.Word1;
                 var category = wordEntity.Category;
-                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                //var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                var ip = _eflogic.GetIP();
 
                 var exists = _efWordRepository.CheckIfWordExists(word);
 
@@ -150,7 +155,8 @@ namespace AnagramSolver.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                var ip = _eflogic.GetIP();
+                //var ip = HttpContext.Connection.RemoteIpAddress.ToString();
                 var exists = _efWordRepository.CheckIfWordExists(word);
 
                 if (!exists)
@@ -176,12 +182,13 @@ namespace AnagramSolver.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateForm(string existingWord, [Bind("Word1, Category")] WordEntity wordEntity)
+        public IActionResult UpdateForm(string updatableWord, [Bind("Word1, Category")] WordEntity wordEntity)
         {
             if (ModelState.IsValid)
             {
-                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
-                var exists = _efWordRepository.CheckIfWordExists(existingWord);
+                var ip = _eflogic.GetIP();
+                //var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                var exists = _efWordRepository.CheckIfWordExists(updatableWord);
 
                 if (!exists)
                 {
@@ -190,18 +197,28 @@ namespace AnagramSolver.WebApp.Controllers
                 }
                 else
                 {
-                    _efWordRepository.UpdateWord(existingWord, wordEntity);
-                    _efUserLogRepository.InsertUserLog(existingWord, ip, UserAction.Update);
-                    ViewBag.Message = "Selected word was updated! +1 added";
-                    return View();
+                    var updateCheck = _efWordRepository.UpdateWord(updatableWord, wordEntity);
+                    if (updateCheck == true)
+                    {
+                        ModelState.AddModelError(string.Empty, "This word cannot be updated with your option, same word already exists!");
+                        return View();
+                    }
+                    else
+                    {
+                        _efUserLogRepository.InsertUserLog(updatableWord, ip, UserAction.Update);
+                        ViewBag.Message = "Selected word was updated! +1 added";
+                        return View();
+                    }
                 }
             }
             return View();
         }
 
-        public string GetIP()
+        public string GetContextIP()
         {
             return HttpContext.Connection.RemoteIpAddress.ToString();
+            //return "::1";
         }
+
     }
 }
