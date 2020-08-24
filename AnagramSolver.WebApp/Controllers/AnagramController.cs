@@ -82,14 +82,14 @@ namespace AnagramSolver.WebApp.Controllers
             return View();
         }
 
-        public IActionResult WordAnagrams(string id)
+        public async Task<IActionResult> WordAnagrams(string id)
         {
             try
             {
                 if (string.IsNullOrEmpty(id))
                     throw new Exception("Error! At least one word must be entered.");
 
-                var anagrams = _anagramSolver.GetAnagrams(id);
+                var anagrams = await _anagramSolver.GetAnagrams(id);
 
 
                 return View(anagrams);

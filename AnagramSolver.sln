@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.UI", "Anagram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.WebApp", "AnagramSolver.WebApp\AnagramSolver.WebApp.csproj", "{6C1F084E-220D-44E1-BA09-9E608234F1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Generics", "Generics\AnagramSolver.Generics.csproj", "{EF6FD38A-693B-440F-9382-39A372C3FA4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.Generics", "Generics\AnagramSolver.Generics.csproj", "{EF6FD38A-693B-440F-9382-39A372C3FA4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.SOAPCalculator", "AnagramSolver.SOAPCalculator\AnagramSolver.SOAPCalculator.csproj", "{C8D21589-B2F8-4DB8-A39E-26496C8533B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{EF6FD38A-693B-440F-9382-39A372C3FA4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF6FD38A-693B-440F-9382-39A372C3FA4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF6FD38A-693B-440F-9382-39A372C3FA4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D21589-B2F8-4DB8-A39E-26496C8533B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D21589-B2F8-4DB8-A39E-26496C8533B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D21589-B2F8-4DB8-A39E-26496C8533B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D21589-B2F8-4DB8-A39E-26496C8533B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

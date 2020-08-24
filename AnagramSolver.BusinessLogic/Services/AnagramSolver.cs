@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts;
 using AnagramSolver.Contracts.Entities;
@@ -56,7 +57,7 @@ namespace AnagramSolver.BusinessLogic
             _createdDictionary = MakeDictionary(fileColumns);
         }
 
-        public IEnumerable<string> GetAnagrams(string myWords)
+        public async Task<IEnumerable<string>> GetAnagrams(string myWords)
         {
             // 1 - Failo pirmieji 2 stulpeliai
             // Kiekviena karta ne kolint idet 
@@ -76,12 +77,9 @@ namespace AnagramSolver.BusinessLogic
             return anagrams;
         }
 
-        // CIA GET WORDS
-        // 3,4 
 
-        // Metodas - žodžio sortinimas pagal abeceles tvarka
-
-        public string SortByAlphabet(string inputWord)
+        //buvo public
+        private string SortByAlphabet(string inputWord)
         {
             char[] convertedToChar = inputWord.ToCharArray();
             Array.Sort(convertedToChar);
@@ -90,9 +88,8 @@ namespace AnagramSolver.BusinessLogic
         }
 
         //**// public Dictionary<string, string> MakeDictionary(List<WordModel> wordModel)
-        public Dictionary<string, string> MakeDictionary(List<WordEntity> wordModel)
+        private Dictionary<string, string> MakeDictionary(List<WordEntity> wordModel)
         {
-            //**//var wordModelDictionary = wordModel.ToDictionary(x => x.Word, x => x.Category);
             var wordModelDictionary = wordModel.ToDictionary(x => x.Word1, x => x.Category);
             var sortedDictionary = wordModelDictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
             return sortedDictionary;
@@ -100,7 +97,6 @@ namespace AnagramSolver.BusinessLogic
 
         public int CountChars(string input)
         {
-            // CharListo characteriu skaiciavimas
             char[] characters = input.ToCharArray();
             int charCount = input.Count(c => !Char.IsWhiteSpace(c));
             return charCount;

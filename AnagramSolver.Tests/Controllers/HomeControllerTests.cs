@@ -20,6 +20,7 @@ using AnagramSolver.Contracts.Enums;
 using AnagramSolver.Contracts.Entities;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Tests
 {
@@ -61,16 +62,16 @@ namespace AnagramSolver.Tests
         }
 
         [Test]
-        public void Test_IfIndexView_IsEmpty_WhenWordIsNull()
+        public async Task Test_IfIndexView_IsEmpty_WhenWordIsNull()
         {
-            var viewResult = _controller.Index(null) as ViewResult;
+            var viewResult = await _controller.Index(null) as ViewResult;
             var word = viewResult.ViewData.Model as IEnumerable<string>;
 
             Assert.IsNull(word);
         }
 
         [Test]
-        public void Test_Index_IfMessageIsShown_WhenSearchLimitIsExceeded()
+        public async Task Test_Index_IfMessageIsShown_WhenSearchLimitIsExceeded()
         {
             var word = "gimtadienis";
             var ip = _efLogicMock.GetIP();
@@ -86,7 +87,7 @@ namespace AnagramSolver.Tests
 
             _userLogServiceMock.ValidateUserLog(ip).Returns("failed");
 
-            var result = _controller.Index(word) as ViewResult;
+            var result = await _controller.Index(word) as ViewResult;
             var message = "Limit of searches was exceeded! In order to have more searches, add/update word:";
 
             _userLogServiceMock.Received().ValidateUserLog(ip);
@@ -97,7 +98,7 @@ namespace AnagramSolver.Tests
 
 
         [Test]
-        public void Test_Index_IfAnagramsListReturned_WhenSearchLimitIsOkAndWordIsNotCached()
+        public async Task Test_Index_IfAnagramsListReturned_WhenSearchLimitIsOkAndWordIsNotCached()
         {
             var testWord = "pantis";
             var anagramList = new List<string>() { "pantis", "spinta" };
@@ -108,18 +109,18 @@ namespace AnagramSolver.Tests
             _efCachedWordRepositoryMock.GetCachedWords(testWord).Returns(wordList);
             _anagramSolverMock.GetAnagrams(testWord).Returns(anagramList);
 
-            var viewResult = _controller.Index(testWord) as ViewResult;
+            var viewResult = await _controller.Index(testWord) as ViewResult;
             var model = viewResult.ViewData.Model as IEnumerable<string>;
 
             _userLogServiceMock.Received().ValidateUserLog(ip);
             _efCachedWordRepositoryMock.Received().GetCachedWords(testWord);
-            _anagramSolverMock.Received().GetAnagrams(testWord);
+            await _anagramSolverMock.Received().GetAnagrams(testWord);
 
             Assert.AreEqual(anagramList, model);
         }
 
         [Test]
-        public void Test_Index_IfCachedAnagramsListReturned_WhenSearchLimitIsOkAndWordIsCached()
+        public async Task Test_Index_IfCachedAnagramsListReturned_WhenSearchLimitIsOkAndWordIsCached()
         {
             var testWord = "jaunas";
             var anagramList = new List<string>() { "jaunas", "naujas"};
@@ -129,7 +130,7 @@ namespace AnagramSolver.Tests
             _efCachedWordRepositoryMock.GetCachedWords(testWord).Returns(anagramList);
             _efCachedWordRepositoryMock.GetCachedWords(testWord).Returns(anagramList);
 
-            var viewResult = _controller.Index(testWord) as ViewResult;
+            var viewResult = await _controller.Index(testWord) as ViewResult;
             var model = viewResult.ViewData.Model as IEnumerable<string>;
 
             _userLogServiceMock.Received().ValidateUserLog(ip);

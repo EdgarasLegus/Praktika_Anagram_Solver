@@ -46,7 +46,7 @@ namespace AnagramSolver.WebApp.Controllers
             _eflogic = efLogic;
         }
 
-        public IActionResult Index(string word)
+        public async Task<IActionResult> Index(string word)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace AnagramSolver.WebApp.Controllers
 
                     if (check.Count == 0)
                     {
-                        var anagrams = _anagramSolver.GetAnagrams(word);
+                        var anagrams = await _anagramSolver.GetAnagrams(word);
                         //var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
                         var anagramsId = _efWordRepository.GetAnagramsId(anagrams);
                         //_databaseLogic.InsertCachedWords(id, anagramsId);

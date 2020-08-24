@@ -21,6 +21,7 @@ namespace AnagramSolver.UI
     {
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
         private static readonly IUI _userInterface = new UI();
+        private static readonly IAnagramSolver _anagramSolverREST = new BusinessLogic.Services.AnagramSolverREST();
 
         //private static readonly Print _print = new Print(WriteLineConsole);
         //private static readonly Display _display = new Display(new Print(WriteLineConsole));
@@ -48,34 +49,12 @@ namespace AnagramSolver.UI
 
             var input = _userInterface.GetUserInput(minInputWordLength);
 
-            var anagrams = _anagramSolver.GetAnagrams(input);
+            var anagrams = await _anagramSolver.GetAnagrams(input);
             var joinedAnagrams = string.Join('\n', anagrams);
 
             _print("---Anagramos:");
             _print(string.Join('\n', joinedAnagrams));
             _print("\n");
-
-            // Gets the IP loopback address and converts it to a string.
-            //String IpAddressString = IPAddress.Loopback.ToString();
-            //    Console.WriteLine("Loopback IP address : " + IpAddressString);
-
-            string host = Dns.GetHostName();
-
-            IPAddress[] hostIPs = Dns.GetHostAddresses(host);
-            // get local IP addresses
-            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
-
-            // test if any host IP equals to any local IP or to localhost
-            foreach (IPAddress hostIP in hostIPs)
-            {
-                // is localhost
-                if (IPAddress.IsLoopback(hostIP)) Console.WriteLine(hostIP);
-                // is local address
-                foreach (IPAddress localIP in localIPs)
-                {
-                    if (hostIP.Equals(localIP)) Console.WriteLine(localIP);
-                }
-            }
 
 
             _print("---Anagramos su kapitalizuota pirmąja raide");
@@ -88,6 +67,14 @@ namespace AnagramSolver.UI
             var responseAnagrams = await _userInterface.RequestAPI(inputForRequest);
             _print("---API Response anagramos:");
             _print(responseAnagrams);
+            _print("\n");
+
+            //Get anagrams from Academica REST API
+            _print("--Anagramica REST API");
+            var inputForAnagramica = _userInterface.GetUserInput(minInputWordLength);
+            var responseAnagramica = await _anagramSolverREST.GetAnagrams(inputForAnagramica);
+            _print("---Anagramica anagramos:");
+            _print(string.Join('\n', responseAnagramica));
             _print("\n");
         }
 

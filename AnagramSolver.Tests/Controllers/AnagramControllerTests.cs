@@ -12,6 +12,7 @@ using AnagramSolver.Contracts.Entities;
 using Microsoft.AspNetCore.Mvc;
 using AnagramSolver.WebApp.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Tests
 {
@@ -87,7 +88,7 @@ namespace AnagramSolver.Tests
         }
 
         [Test]
-        public void TestWordAnagrams_IfReturnedViewIsCorrect()
+        public async Task TestWordAnagrams_IfReturnedViewIsCorrect()
         {
             var testWordEntity = new WordEntity()
             {
@@ -99,7 +100,7 @@ namespace AnagramSolver.Tests
 
             _anagramSolverMock.GetAnagrams(testWordEntity.Word1).Returns(testAnagramsList);
 
-            var result = _anagramController.WordAnagrams(testWordEntity.Word1) as ViewResult;
+            var result = await _anagramController.WordAnagrams(testWordEntity.Word1) as ViewResult;
             var model = result.ViewData.Model as IEnumerable<string>;
 
             _anagramSolverMock.Received().GetAnagrams(testWordEntity.Word1);
