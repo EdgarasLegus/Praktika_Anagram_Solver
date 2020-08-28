@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Tests.Controllers
 {
@@ -24,7 +25,7 @@ namespace AnagramSolver.Tests.Controllers
         }
 
         [Test]
-        public void TestIActionResult_IfSuccess()
+        public async Task TestIActionResult_IfSuccess()
         {
             var testWord = "kalnas";
 
@@ -32,20 +33,20 @@ namespace AnagramSolver.Tests.Controllers
 
             _anagramSolverMock.GetAnagrams(testWord).Returns(testAnagramsList);
 
-            var result = _apiAnagramController.Get(testWord) as ObjectResult;
+            var result = await _apiAnagramController.Get(testWord) as ObjectResult;
             var model = result.Value as IEnumerable<string>;
 
-            _anagramSolverMock.Received().GetAnagrams(testWord);
+            await _anagramSolverMock.Received().GetAnagrams(testWord);
 
             Assert.AreEqual(testAnagramsList, model);
             Assert.AreEqual(200, result.StatusCode);
         }
 
         [Test]
-        public void TestIActionResult_IfRequestIsUnsuccessful()
+        public async Task TestIActionResult_IfRequestIsUnsuccessful()
         {
             var testWord = "";
-            var result = _apiAnagramController.Get(testWord) as ObjectResult;
+            var result = await _apiAnagramController.Get(testWord) as ObjectResult;
             Assert.AreEqual(400, result.StatusCode);
         }
     }

@@ -25,36 +25,39 @@ namespace AnagramSolver.BusinessLogic
         private Dictionary<string, string> _createdDictionary;
         //private readonly AnagramSolverDBFirstContext _context;
         private readonly AnagramSolverCodeFirstContext _context;
-
         private readonly IEFWordRepo _efWordRepository;
+        private readonly IWordService _wordService;
 
         public IWordRepository FRepository { get; set; }
         public IWordRepository DBRepository { get; set; }
         public IEFWordRepo EFWordRepo { get; set; }
 
-
-        public AnagramSolver()
+        public AnagramSolver(IEFWordRepo eFWordRepository, AnagramSolverCodeFirstContext context, IWordService wordservice)
         {
+            //var cont = new AnagramSolverDBFirstContext();
+            //.//var cont = new AnagramSolverCodeFirstContext();
+
             //var repository = new FRepository();
             //var repository = new DBRepository();
-
-            //var cont = new AnagramSolverDBFirstContext();
-            var cont = new AnagramSolverCodeFirstContext();
-
             //var repository = new EFRepository(cont);
-            var repository = new EFWordRepository(cont);
-            var wordService = new WordService();
+            //.//var repository = new EFWordRepository(cont);
 
-            if (!cont.Word.Any())
+            _context = context;
+            _wordService = wordservice;
+     
+            //.//var wordService = new WordService();
+
+            _efWordRepository = eFWordRepository;
+            if (!_context.Word.Any())
             {
                 //repository.InsertWordTableData(repository.GetWordEntityFromFile());
-                repository.InsertWordTableData(wordService.GetWordEntityFromFile());
+                _efWordRepository.InsertWordTableData(_wordService.GetWordEntityFromFile());
             }
 
             // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius
-            var fileColumns = repository.GetWords();
+            //var fileColumns = await repository.GetWords();
 
-            _createdDictionary = MakeDictionary(fileColumns);
+            //_createdDictionary = MakeDictionary(fileColumns);
         }
 
         public async Task<IEnumerable<string>> GetAnagrams(string myWords)
@@ -62,10 +65,10 @@ namespace AnagramSolver.BusinessLogic
             // 1 - Failo pirmieji 2 stulpeliai
             // Kiekviena karta ne kolint idet 
             //Dictionary<string, string> fileColumns = FRepository.GetWords();
-
+            var fileColumns = await _efWordRepository.GetWords();
             // 2 - Sudarytas žodynas
             //Dictionary<string, string> createdDictionary = MakeDictionary(fileColumns);
-
+            _createdDictionary = MakeDictionary(fileColumns);
             // 3 - Išrušiuotas įvesties žodis
             var mySortedInputWord = SortByAlphabet(myWords);
 
@@ -81,7 +84,7 @@ namespace AnagramSolver.BusinessLogic
         //buvo public
         private string SortByAlphabet(string inputWord)
         {
-            char[] convertedToChar = inputWord.ToCharArray();
+            char[] convertedToChar =  inputWord.ToCharArray();
             Array.Sort(convertedToChar);
 
             return new string(convertedToChar);

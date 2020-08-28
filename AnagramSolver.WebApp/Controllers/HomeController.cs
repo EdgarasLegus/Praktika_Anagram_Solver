@@ -68,7 +68,7 @@ namespace AnagramSolver.WebApp.Controllers
                     //var ip = _eflogic.GetIP();
                     _efUserLogRepository.InsertUserLog(word, ip, UserAction.Search);
                     ////var check = _databaseLogic.GetCachedWords(id);
-                    var check = _efCachedWordRepository.GetCachedWords(word);
+                    var check = await _efCachedWordRepository.GetCachedWords(word);
 
                     if (check.Count == 0)
                     {
@@ -76,13 +76,13 @@ namespace AnagramSolver.WebApp.Controllers
                         //var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
                         var anagramsId = _efWordRepository.GetAnagramsId(anagrams);
                         //_databaseLogic.InsertCachedWords(id, anagramsId);
-                        _efCachedWordRepository.InsertCachedWords(word, anagramsId);
+                        await _efCachedWordRepository.InsertCachedWords(word, anagramsId);
                         return View(anagrams);
                     }
                     else
                     {
                         //var anagramsFromCache = _databaseLogic.GetCachedWords(id);
-                        var anagramsFromCache = _efCachedWordRepository.GetCachedWords(word);
+                        var anagramsFromCache = await _efCachedWordRepository.GetCachedWords(word);
                         return View(anagramsFromCache);
                     }
                 }
@@ -117,7 +117,7 @@ namespace AnagramSolver.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AdditionForm([Bind("Word1, Category")] WordEntity wordEntity)
+        public async Task<IActionResult> AdditionForm([Bind("Word1, Category")] WordEntity wordEntity)
         {
             if (ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace AnagramSolver.WebApp.Controllers
                 }
                 else
                 {
-                    _efWordRepository.InsertAdditionalWord(word, category);
+                    await _efWordRepository.InsertAdditionalWord(word, category);
                     _efUserLogRepository.InsertUserLog(word, ip, UserAction.Add);
                     ViewBag.Message = "New word added successfully! +1 search is added";
                     return View();

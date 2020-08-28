@@ -45,9 +45,9 @@ namespace AnagramSolver.SOAPCalculator
             var firstAddNumber = GetUserInput();
             _print("Input second number" + "\n");
             var secondAddNumber = GetUserInput();
-            await _calculator.OpenAsync();
+            //await _calculator.OpenAsync();
             var additionResult = await _calculator.AddAsync(firstAddNumber, secondAddNumber);
-            await _calculator.CloseAsync();
+            //await _calculator.CloseAsync();
             _print("Result" + "\n");
             _print(additionResult.ToString());
         }
@@ -60,7 +60,9 @@ namespace AnagramSolver.SOAPCalculator
             var firstSubNumber = GetUserInput();
             _print("Input second number" + "\n");
             var secondSubNumber = GetUserInput();
+            //await _calculator.OpenAsync();
             var resultSub = await _calculator.SubtractAsync(firstSubNumber, secondSubNumber);
+            //await _calculator.CloseAsync();
             _print("Result" + "\n");
             _print(resultSub.ToString());
         }
@@ -73,7 +75,9 @@ namespace AnagramSolver.SOAPCalculator
             var firstMulNumber = GetUserInput();
             _print("Input second number" + "\n");
             var secondMulNumber = GetUserInput();
+            //await _calculator.OpenAsync();
             var resultMul = await _calculator.MultiplyAsync(firstMulNumber, secondMulNumber);
+            //await _calculator.CloseAsync();
             _print("Result" + "\n");
             _print(resultMul.ToString());
         }
@@ -86,7 +90,9 @@ namespace AnagramSolver.SOAPCalculator
             var firstDivNumber = GetUserInput();
             _print("Input second number" + "\n");
             var secondDivNumber = GetUserInput();
+            //await _calculator.OpenAsync();
             var resultDiv = await _calculator.DivideAsync(firstDivNumber, secondDivNumber);
+            //await _calculator.CloseAsync();
             _print("Result" + "\n");
             _print(resultDiv.ToString());
         }

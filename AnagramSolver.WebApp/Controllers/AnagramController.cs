@@ -30,7 +30,7 @@ namespace AnagramSolver.WebApp.Controllers
             _efWordRepository = efWordRepository;
         }
 
-        public IActionResult Index(int? pageIndex, string searchInput, int pageSize = 100)
+        public async Task<IActionResult> Index(int? pageIndex, string searchInput, int pageSize = 100)
         {
             try
             {
@@ -44,14 +44,14 @@ namespace AnagramSolver.WebApp.Controllers
                 {
                     //**//wordList = _databaseLogic.SearchWords(searchInput);
                     //#//wordList = _eflogic.SearchWords(searchInput);
-                    wordList = _efWordRepository.SearchWords(searchInput);
+                    wordList = await _efWordRepository.SearchWords(searchInput);
                     pageSize = wordList.Count;
                 }
                 else
                 {
                     //**//wordList = _repository.GetWords();
                     //#//wordList = _efRepository.GetWords();
-                    wordList = _efWordRepository.GetWords();
+                    wordList = await _efWordRepository.GetWords();
                 }
                 //wordList = _repository.GetWords()
                 //    .Select(x => new Anagram

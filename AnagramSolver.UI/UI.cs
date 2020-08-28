@@ -9,12 +9,15 @@ using AnagramSolver.Repos;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces.DBFirst;
 using System.Drawing.Printing;
+using AnagramSolver.Repos.EF;
+using AnagramSolver.EF.CodeFirst;
+using AnagramSolver.BusinessLogic.Services;
 
 namespace AnagramSolver.UI
 {
     public class UI : IUI
     {
-        private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
+        private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver(new EFWordRepository(new AnagramSolverCodeFirstContext()), new AnagramSolverCodeFirstContext(), new WordService());
         private static readonly HttpClient client = new HttpClient();
         private static readonly IFillDB _fillDB = new FillDBRepository();
 

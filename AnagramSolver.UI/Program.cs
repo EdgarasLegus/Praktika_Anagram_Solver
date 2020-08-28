@@ -14,12 +14,19 @@ using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces.DBFirst;
 using System.Diagnostics;
 using System.Net;
+using AnagramSolver.Repos.EF;
+using AnagramSolver.Interfaces.EF;
+using AnagramSolver.EF.CodeFirst;
+using AnagramSolver.BusinessLogic.Services;
 
 namespace AnagramSolver.UI
 {
     class Program
     {
-        private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
+        private static readonly IEFWordRepo _eFWordRepository = new EFWordRepository(new AnagramSolverCodeFirstContext());
+        private static readonly AnagramSolverCodeFirstContext _context = new AnagramSolverCodeFirstContext();
+        private static readonly IWordService _wordService = new WordService();
+        private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver(_eFWordRepository, _context, _wordService);
         private static readonly IUI _userInterface = new UI();
         private static readonly IAnagramSolver _anagramSolverREST = new BusinessLogic.Services.AnagramSolverREST();
 

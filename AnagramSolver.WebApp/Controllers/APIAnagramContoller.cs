@@ -20,7 +20,7 @@ namespace AnagramSolver.WebApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
 
             try
@@ -28,7 +28,7 @@ namespace AnagramSolver.WebApp.Controllers
                 if (string.IsNullOrEmpty(id))
                     throw new Exception("Error! At least one word must be entered.");
 
-                var anagrams = _anagramSolver.GetAnagrams(id);
+                var anagrams = await _anagramSolver.GetAnagrams(id);
 
                 return Ok(anagrams);
             }

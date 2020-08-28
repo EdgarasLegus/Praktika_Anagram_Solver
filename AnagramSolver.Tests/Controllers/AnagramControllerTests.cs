@@ -45,7 +45,7 @@ namespace AnagramSolver.Tests
         }
 
         [Test]
-        public void TestIndex_IfSearchIsPerformed()
+        public async Task TestIndex_IfSearchIsPerformed()
         {
             var testWordEntity = new WordEntity()
             {
@@ -56,7 +56,7 @@ namespace AnagramSolver.Tests
 
             _efWordRepositoryMock.SearchWords(Arg.Any<string>()).Returns(testAnagramList);
 
-            var result = _anagramController.Index(1, testWordEntity.Word1) as ViewResult;
+            var result = await _anagramController.Index(1, testWordEntity.Word1) as ViewResult;
             var model = result.ViewData.Model as PaginatedList<WordEntity>;
 
             _efWordRepositoryMock.Received().SearchWords(Arg.Any<string>());
@@ -66,7 +66,7 @@ namespace AnagramSolver.Tests
         }
 
         [Test]
-        public void TestIndex_IfSearchIsNotPerformed()
+        public async Task TestIndex_IfSearchIsNotPerformed()
         {
             var searchWord = ""; 
             var testWordEntity = new WordEntity()
@@ -78,7 +78,7 @@ namespace AnagramSolver.Tests
 
             _efWordRepositoryMock.GetWords().Returns(testAnagramList);
 
-            var result = _anagramController.Index(1, searchWord) as ViewResult;
+            var result = await _anagramController.Index(1, searchWord) as ViewResult;
             var model = result.ViewData.Model as PaginatedList<WordEntity>;
 
             _efWordRepositoryMock.Received().GetWords();

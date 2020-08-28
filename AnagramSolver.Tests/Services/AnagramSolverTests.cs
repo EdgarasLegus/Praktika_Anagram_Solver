@@ -33,7 +33,7 @@ namespace AnagramSolver.Tests
         //    _efRepository = efRepository;
         //}
 
-        public AnagramSolverTests(AnagramSolverCodeFirstContext context, EFWordRepository efWordRepository)
+        public AnagramSolverTests(AnagramSolverCodeFirstContext context, EFWordRepository efWordRepository, IWordService wordService)
         {
             _context = context;
             _efWordRepository = efWordRepository;
@@ -42,14 +42,14 @@ namespace AnagramSolver.Tests
         [SetUp]
         public void Setup()
         {
-            _anagramSolver = new BusinessLogic.AnagramSolver()
-            {
-                //FRepository = new FRepository()
-                //DBRepository = new DBRepository()
-                //EFRepository = new EFRepository(new AnagramSolverDBFirstContext())
-                //EFRepository = new EFRepository(new AnagramSolverCodeFirstContext())
-                EFWordRepo = new EFWordRepository(new AnagramSolverCodeFirstContext())
-            };
+            //_anagramSolver = new BusinessLogic.AnagramSolver(new EFWordRepository(new AnagramSolverCodeFirstContext()), new AnagramSolverCodeFirstContext(), ))
+            //{
+            //    //FRepository = new FRepository()
+            //    //DBRepository = new DBRepository()
+            //    //EFRepository = new EFRepository(new AnagramSolverDBFirstContext())
+            //    //EFRepository = new EFRepository(new AnagramSolverCodeFirstContext())
+            //    EFWordRepo = new EFWordRepository(new AnagramSolverCodeFirstContext())
+            //};
         }
 
         [TestCase("absorbavimas", "aaabbimorssv")]

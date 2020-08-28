@@ -2,12 +2,15 @@
 using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces.EF;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+//using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Repos.EF
 {
@@ -26,15 +29,14 @@ namespace AnagramSolver.Repos.EF
             _context = context;
         }
 
-        public List<WordEntity> GetWords()
+        public Task<List<WordEntity>> GetWords()
         {
-            var wordModelList = _context.Word.ToList();
-            return wordModelList;
+            return _context.Word.ToListAsync();
         }
 
-        public List<WordEntity> SearchWords(string searchInput)
+        public Task<List<WordEntity>> SearchWords(string searchInput)
         {
-            var wordList = _context.Word.Where(x => x.Word1.Contains(searchInput)).ToList();
+            var wordList = _context.Word.Where(x => x.Word1.Contains(searchInput)).ToListAsync();
             return wordList;
         }
 
@@ -50,7 +52,7 @@ namespace AnagramSolver.Repos.EF
         }
 
         // CODE FIRST
-        public void InsertWordTableData(List<WordEntity> fileColumns)
+        public async Task InsertWordTableData(List<WordEntity> fileColumns)
         {
             var enity = new WordEntity();
             foreach (var item in fileColumns)
@@ -62,22 +64,22 @@ namespace AnagramSolver.Repos.EF
                     Word1 = item.Word1,
                     Category = item.Category
                 };
-                _context.Word.Add(wordEntity);
+                await _context.Word.AddAsync(wordEntity);
                 //_context.SaveChanges();
             }
             //_context.Word.Add(wordEntity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void InsertAdditionalWord(string word, string category)
+        public async Task InsertAdditionalWord(string word, string category)
         {
             var additionalWord = new WordEntity
             {
                 Word1 = word,
                 Category = category
             };
-            _context.Word.Add(additionalWord);
-            _context.SaveChanges();
+            await _context.Word.AddAsync(additionalWord);
+            await _context.SaveChangesAsync();
         }
 
         public bool CheckIfWordExists(string word)
@@ -101,7 +103,7 @@ namespace AnagramSolver.Repos.EF
                 Id = wordId
             };
             _context.Word.Remove(wordEntity);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
         public bool UpdateWord(string updatableWord, WordEntity newWord)
